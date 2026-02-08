@@ -1,6 +1,9 @@
 import ArbitroQR from "@/components/ArbitroQR";
 import { supabase } from "@/lib/supabase";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 interface Props {
   params: Promise<{ id: string }>;
 }

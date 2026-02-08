@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -11,20 +11,28 @@ export default function Home() {
   const [mensaje, setMensaje] = useState("");
 
   const registrar = async () => {
+    const nombreLimpio = nombre.trim();
+    const categoriaLimpia = categoria.trim();
+
+    if (!nombreLimpio || !categoriaLimpia) {
+      setMensaje("? Completa nombre y categor?a");
+      return;
+    }
+
     setLoading(true);
     setMensaje("");
 
     const { error } = await supabase.from("arbitros").insert([
       {
-        nombre,
-        categoria,
+        nombre: nombreLimpio,
+        categoria: categoriaLimpia,
       },
     ]);
 
     if (error) {
-      setMensaje("❌ Error al registrar");
+      setMensaje("? Error al registrar");
     } else {
-      setMensaje("✅ Árbitro registrado correctamente");
+      setMensaje("? ?rbitro registrado correctamente");
       setNombre("");
       setCategoria("");
     }
@@ -32,9 +40,11 @@ export default function Home() {
     setLoading(false);
   };
 
+  const disabled = loading || !nombre.trim() || !categoria.trim();
+
   return (
     <main className="max-w-md mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Registro de Árbitros</h1>
+      <h1 className="text-2xl font-bold mb-4">Registro de ?rbitros</h1>
 
       <input
         type="text"
@@ -46,7 +56,7 @@ export default function Home() {
 
       <input
         type="text"
-        placeholder="Categoría (FIFA, Nacional, Amateur)"
+        placeholder="Categor?a (FIFA, Nacional, Amateur)"
         value={categoria}
         onChange={(e) => setCategoria(e.target.value)}
         className="w-full border p-2 mb-3 rounded"
@@ -54,10 +64,10 @@ export default function Home() {
 
       <button
         onClick={registrar}
-        disabled={loading}
-        className="w-full bg-black text-white p-2 rounded"
+        disabled={disabled}
+        className="w-full bg-black text-white p-2 rounded disabled:opacity-60"
       >
-        {loading ? "Registrando..." : "Registrar árbitro"}
+        {loading ? "Registrando..." : "Registrar ?rbitro"}
       </button>
 
       {mensaje && (
@@ -68,7 +78,7 @@ export default function Home() {
         href="/arbitros"
         className="mt-3 block w-full text-center border border-gray-300 p-2 rounded"
       >
-        Ver árbitros registrados
+        Ver ?rbitros registrados
       </Link>
     </main>
   );
