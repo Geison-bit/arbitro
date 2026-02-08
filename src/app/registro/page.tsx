@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
-export default function Home() {
+export default function RegistroArbitro() {
   const [nombre, setNombre] = useState("");
   const [categoria, setCategoria] = useState("");
   const [loading, setLoading] = useState(false);
@@ -14,19 +14,22 @@ export default function Home() {
     setLoading(true);
     setMensaje("");
 
-    const { error } = await supabase.from("arbitros").insert([
-      {
-        nombre,
-        categoria,
-      },
-    ]);
+    const { data, error } = await supabase
+      .from("arbitros")
+      .insert([
+        {
+          nombre,
+          categoria,
+        },
+      ])
+      .select()
+      .single();
 
     if (error) {
       setMensaje("❌ Error al registrar");
     } else {
-      setMensaje("✅ Árbitro registrado correctamente");
-      setNombre("");
-      setCategoria("");
+      // redirigir al perfil del árbitro
+      window.location.href = `/v/${data.id}`;
     }
 
     setLoading(false);
