@@ -130,12 +130,20 @@ export default function Home() {
           </p>
         )}
 
-        <Link
-          href="/arbitros"
-          className="mt-4 block w-full text-center border border-[var(--line)] rounded-2xl py-2.5 font-semibold text-[var(--ink)] hover:bg-gray-50"
-        >
-          Ver ?rbitros registrados
-        </Link>
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          <Link
+            href="/arbitros"
+            className="block w-full text-center border border-[var(--line)] rounded-2xl py-2.5 font-semibold text-[var(--ink)] hover:bg-gray-50"
+          >
+            Landing
+          </Link>
+          <Link
+            href="/arbitros/lista"
+            className="block w-full text-center border border-[var(--line)] rounded-2xl py-2.5 font-semibold text-[var(--ink)] hover:bg-gray-50"
+          >
+            Ver ?rbitros
+          </Link>
+        </div>
       </section>
     </main>
   );
