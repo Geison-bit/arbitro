@@ -29,7 +29,7 @@ const calcularEdad = (value?: string) => {
   if (m < 0 || (m == 0 && today.getDate() < birth.getDate())) {
     age -= 1;
   }
-  return `${age} a?os`;
+  return `${age} años`;
 };
 
 export default async function PerfilArbitro({ params }: Props) {
@@ -42,7 +42,7 @@ export default async function PerfilArbitro({ params }: Props) {
     .single();
 
   if (error || !data) {
-    return <p className="p-6">?rbitro no encontrado</p>;
+    return <p className="p-6">Árbitro no encontrado</p>;
   }
 
   return (
@@ -65,7 +65,7 @@ export default async function PerfilArbitro({ params }: Props) {
             </svg>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-[0.25em]">Federaci?n / Liga</p>
+            <p className="text-xs uppercase tracking-[0.25em]">Federación / Liga</p>
             <p className="text-lg font-semibold">Credencial oficial</p>
           </div>
         </div>

@@ -10,11 +10,11 @@ export default async function ArbitrosPage() {
     .select("id, nombre, categoria, estado, foto_url");
 
   if (error) {
-    return <p className="p-6">Error al cargar ?rbitros</p>;
+    return <p className="p-6">Error al cargar árbitros</p>;
   }
 
   if (!data || data.length === 0) {
-    return <p className="p-6">No hay ?rbitros registrados</p>;
+    return <p className="p-6">No hay Árbitros registrados</p>;
   }
 
   return (
@@ -25,7 +25,7 @@ export default async function ArbitrosPage() {
             <p className="text-xs uppercase tracking-[0.2em] text-[var(--ref-gray)]">
               Plantilla oficial
             </p>
-            <h1 className="text-2xl font-bold tracking-wide">?rbitros registrados</h1>
+            <h1 className="text-2xl font-bold tracking-wide">Árbitros registrados</h1>
           </div>
           <Link
             href="/"

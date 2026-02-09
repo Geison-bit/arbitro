@@ -107,7 +107,7 @@ export default function RegistroArbitro() {
             Panel administrativo
           </p>
           <h1 className="text-2xl font-bold tracking-wide">
-            Registro oficial de ?rbitros
+            Registro oficial de árbitros
           </h1>
         </header>
 
@@ -144,7 +144,7 @@ export default function RegistroArbitro() {
 
           <div>
             <label className="text-sm font-semibold text-[var(--ref-gray)]">
-              Categor?a
+              Categoría
             </label>
             <div className="relative mt-1">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--ref-gray)]">
@@ -227,7 +227,7 @@ export default function RegistroArbitro() {
           disabled={disabled}
           className="mt-6 w-full bg-red-600 text-white py-2.5 rounded-2xl font-semibold tracking-wide shadow-sm hover:bg-red-700 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {loading ? "Registrando..." : "Registrar ?rbitro"}
+          {loading ? "Registrando..." : "Registrar árbitro"}
         </button>
 
         {mensaje && (
@@ -247,7 +247,7 @@ export default function RegistroArbitro() {
             href="/arbitros/lista"
             className="block w-full text-center border border-[var(--line)] rounded-2xl py-2.5 font-semibold text-[var(--ink)] hover:bg-gray-50"
           >
-            Ver ?rbitros
+            Ver árbitros
           </Link>
         </div>
       </section>
