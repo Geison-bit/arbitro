@@ -19,10 +19,10 @@ export default function ArbitroQR({ id }: Props) {
         <QRCodeCanvas value={value} size={220} />
       </div>
       <p className="mt-3 text-xs uppercase tracking-[0.3em] text-[var(--ref-gray)]">
-        Verificaci?n oficial
+        Verificación oficial
       </p>
       <p className="mt-1 text-sm text-[var(--ref-gray)]">
-        Escanea para verificar ?rbitro
+        Escanea para verificar árbitro
       </p>
     </div>
   );

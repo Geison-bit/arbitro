@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --field-green: #1E7F43;
+  --field-green: #B91C1C;
   --paper: #ffffff;
   --ink: #111827;
   --ref-gray: #6B7280;
-  --active-green: #16A34A;
-  --inactive-red: #DC2626;
-  --panel: #F3F4F6;
+  --active-green: #DC2626;
+  --inactive-red: #7F1D1D;
+  --panel: #F9FAFB;
   --line: #E5E7EB;
 }
 

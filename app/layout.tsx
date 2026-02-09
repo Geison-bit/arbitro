@@ -8,8 +8,8 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Registro de ?rbitros",
-  description: "Sistema oficial de registro y verificaci?n de ?rbitros",
+  title: "Registro de Árbitros",
+  description: "Sistema oficial de registro y verificación de árbitros",
 };
 
 export default function RootLayout({

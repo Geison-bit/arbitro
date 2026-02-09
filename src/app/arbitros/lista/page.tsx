@@ -10,11 +10,11 @@ export default async function ArbitrosPage() {
     .select("id, nombre, categoria, estado");
 
   if (error) {
-    return <p className="p-6">Error al cargar ?rbitros</p>;
+    return <p className="p-6">Error al cargar árbitros</p>;
   }
 
-  if (!data || data.length == 0) {
-    return <p className="p-6">No hay ?rbitros registrados</p>;
+  if (!data || data.length === 0) {
+    return <p className="p-6">No hay árbitros registrados</p>;
   }
 
   return (
@@ -25,13 +25,13 @@ export default async function ArbitrosPage() {
             <p className="text-xs uppercase tracking-[0.2em] text-[var(--ref-gray)]">
               Plantilla oficial
             </p>
-            <h1 className="text-2xl font-bold tracking-wide">?rbitros registrados</h1>
+            <h1 className="text-2xl font-bold tracking-wide">Árbitros registrados</h1>
           </div>
           <Link
-            href="/arbitros"
+            href="/"
             className="inline-flex items-center justify-center rounded-xl border border-[var(--line)] px-4 py-2 text-sm font-semibold text-[var(--ink)] hover:bg-white"
           >
-            Volver al landing
+            Volver al inicio
           </Link>
         </header>
 
@@ -39,10 +39,10 @@ export default async function ArbitrosPage() {
           {data.map((arbitro) => (
             <li
               key={arbitro.id}
-              className="bg-white rounded-2xl shadow-lg border border-[var(--line)] border-l-4 border-l-[var(--field-green)] p-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+              className="bg-white rounded-2xl shadow-lg border border-[var(--line)] border-l-4 border-l-red-600 p-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
             >
               <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-xl bg-[var(--field-green)]/10 text-[var(--field-green)] flex items-center justify-center">
+                <div className="h-12 w-12 rounded-xl bg-red-600/10 text-red-700 flex items-center justify-center">
                   <svg
                     aria-hidden
                     className="h-6 w-6"
@@ -64,7 +64,7 @@ export default async function ArbitrosPage() {
               </div>
 
               <Link
-                className="inline-flex items-center justify-center rounded-xl bg-[var(--field-green)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:brightness-95"
+                className="inline-flex items-center justify-center rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700"
                 href={`/v/${arbitro.id}`}
               >
                 Ver credencial

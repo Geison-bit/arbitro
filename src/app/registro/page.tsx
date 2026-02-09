@@ -1,26 +1,65 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 export default function RegistroArbitro() {
   const [nombre, setNombre] = useState("");
   const [categoria, setCategoria] = useState("");
+  const [fechaNacimiento, setFechaNacimiento] = useState("");
+  const [fechaIngreso, setFechaIngreso] = useState("");
+  const [fotoFile, setFotoFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState("");
+  const [checking, setChecking] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        router.replace("/login");
+        return;
+      }
+      setChecking(false);
+    };
+
+    checkSession();
+  }, [router]);
 
   const registrar = async () => {
     const nombreLimpio = nombre.trim();
     const categoriaLimpia = categoria.trim();
 
-    if (!nombreLimpio || !categoriaLimpia) {
-      setMensaje("Completa nombre y categor?a");
+    if (!nombreLimpio || !categoriaLimpia || !fechaNacimiento || !fechaIngreso) {
+      setMensaje("Completa todos los campos obligatorios");
       return;
     }
 
     setLoading(true);
     setMensaje("");
+
+    let fotoUrl: string | null = null;
+
+    if (fotoFile) {
+      const ext = fotoFile.name.split(".").pop() || "jpg";
+      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("arbitros")
+        .upload(fileName, fotoFile, { upsert: true });
+
+      if (uploadError) {
+        setMensaje("Error al subir la foto");
+        setLoading(false);
+        return;
+      }
+
+      const { data } = supabase.storage.from("arbitros").getPublicUrl(fileName);
+      fotoUrl = data.publicUrl;
+    }
 
     const { data, error } = await supabase
       .from("arbitros")
@@ -28,6 +67,9 @@ export default function RegistroArbitro() {
         {
           nombre: nombreLimpio,
           categoria: categoriaLimpia,
+          fecha_nacimiento: fechaNacimiento,
+          fecha_ingreso: fechaIngreso,
+          foto_url: fotoUrl,
         },
       ])
       .select()
@@ -42,7 +84,20 @@ export default function RegistroArbitro() {
     setLoading(false);
   };
 
-  const disabled = loading || !nombre.trim() || !categoria.trim();
+  const disabled =
+    loading ||
+    !nombre.trim() ||
+    !categoria.trim() ||
+    !fechaNacimiento ||
+    !fechaIngreso;
+
+  if (checking) {
+    return (
+      <main className="min-h-screen bg-[var(--panel)] flex items-center justify-center p-6">
+        <p className="text-sm text-[var(--ref-gray)]">Cargando...</p>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[var(--panel)] flex items-center justify-center p-6">
@@ -82,7 +137,7 @@ export default function RegistroArbitro() {
                 placeholder="Nombre completo"
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
-                className="w-full border border-[var(--line)] rounded-xl py-2.5 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-[var(--field-green)]"
+                className="w-full border border-[var(--line)] rounded-xl py-2.5 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-red-600"
               />
             </div>
           </div>
@@ -112,8 +167,57 @@ export default function RegistroArbitro() {
                 placeholder="FIFA, Nacional, Amateur"
                 value={categoria}
                 onChange={(e) => setCategoria(e.target.value)}
-                className="w-full border border-[var(--line)] rounded-xl py-2.5 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-[var(--field-green)]"
+                className="w-full border border-[var(--line)] rounded-xl py-2.5 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-red-600"
               />
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="text-sm font-semibold text-[var(--ref-gray)]">
+                Fecha de nacimiento
+              </label>
+              <input
+                type="date"
+                value={fechaNacimiento}
+                onChange={(e) => setFechaNacimiento(e.target.value)}
+                className="mt-1 w-full border border-[var(--line)] rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-red-600"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-[var(--ref-gray)]">
+                Fecha de ingreso
+              </label>
+              <input
+                type="date"
+                value={fechaIngreso}
+                onChange={(e) => setFechaIngreso(e.target.value)}
+                className="mt-1 w-full border border-[var(--line)] rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-red-600"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-semibold text-[var(--ref-gray)]">
+              Foto de perfil
+            </label>
+            <div className="mt-2 flex items-center gap-3">
+              <input
+                id="foto-perfil"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => setFotoFile(e.target.files?.[0] ?? null)}
+              />
+              <label
+                htmlFor="foto-perfil"
+                className="inline-flex items-center justify-center rounded-xl border border-[var(--line)] px-4 py-2 text-sm font-semibold text-[var(--ink)] hover:bg-gray-50 cursor-pointer"
+              >
+                Subir foto
+              </label>
+              <span className="text-sm text-[var(--ref-gray)]">
+                {fotoFile ? fotoFile.name : "Sin archivo"}
+              </span>
             </div>
           </div>
         </div>
@@ -121,7 +225,7 @@ export default function RegistroArbitro() {
         <button
           onClick={registrar}
           disabled={disabled}
-          className="mt-6 w-full bg-[var(--field-green)] text-white py-2.5 rounded-2xl font-semibold tracking-wide shadow-sm hover:brightness-95 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="mt-6 w-full bg-red-600 text-white py-2.5 rounded-2xl font-semibold tracking-wide shadow-sm hover:bg-red-700 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {loading ? "Registrando..." : "Registrar ?rbitro"}
         </button>
@@ -134,7 +238,7 @@ export default function RegistroArbitro() {
 
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
           <Link
-            href="/arbitros"
+            href="/"
             className="block w-full text-center border border-[var(--line)] rounded-2xl py-2.5 font-semibold text-[var(--ink)] hover:bg-gray-50"
           >
             Landing
