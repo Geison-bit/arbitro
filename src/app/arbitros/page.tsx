@@ -16,12 +16,12 @@ export default function ArbitrosLanding() {
               <span className="text-xl">?</span>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-white/60">Federación</p>
-              <p className="text-lg font-semibold">Sistema de Árbitros</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-white/60">Federaci?n</p>
+              <p className="text-lg font-semibold">Sistema de ?rbitros</p>
             </div>
           </div>
           <nav className="flex flex-wrap items-center gap-6 text-sm font-semibold text-white/70">
-            <Link className="hover:text-white" href="/login">Iniciar sesión</Link>
+            <Link className="hover:text-white" href="/login">Iniciar sesi?n</Link>
           </nav>
         </header>
 
@@ -29,7 +29,7 @@ export default function ArbitrosLanding() {
           <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-black/40 shadow-2xl">
             <Image
               src="/WhatsApp-Image-2026-02-08-at-16.26.35.jpg"
-              alt="Árbitros en el campo"
+              alt="?rbitros en el campo"
               width={900}
               height={700}
               className="h-full w-full object-cover"
@@ -37,10 +37,10 @@ export default function ArbitrosLanding() {
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-black/70 via-black/10 to-transparent" />
             <div className="absolute bottom-6 left-6 right-6">
-              <p className="text-sm uppercase tracking-[0.3em] text-white/70">Verificación oficial</p>
-              <h2 className="mt-2 text-3xl font-bold tracking-wide">Fútbol con autoridad</h2>
+              <p className="text-sm uppercase tracking-[0.3em] text-white/70">Verificaci?n oficial</p>
+              <h2 className="mt-2 text-3xl font-bold tracking-wide">F?tbol con autoridad</h2>
               <p className="mt-2 text-white/80">
-                Credenciales digitales con QR para validar árbitros en segundos.
+                Credenciales digitales con QR para validar ?rbitros en segundos.
               </p>
             </div>
           </div>
@@ -48,10 +48,10 @@ export default function ArbitrosLanding() {
           <div className="rounded-[32px] border border-white/10 bg-white/10 p-8 backdrop-blur">
             <p className="text-xs uppercase tracking-[0.3em] text-white/60">Plataforma oficial</p>
             <h1 className="mt-3 text-4xl font-bold leading-tight">
-              Registro y control de árbitros
+              Registro y control de ?rbitros
             </h1>
             <p className="mt-4 text-white/80">
-              Gestiona altas, categorías y estado de cada árbitro. Comparte la
+              Gestiona altas, categor?as y estado de cada ?rbitro. Comparte la
               credencial con QR para verificar su autenticidad en cancha.
             </p>
 
@@ -60,13 +60,7 @@ export default function ArbitrosLanding() {
                 href="/login"
                 className="inline-flex items-center justify-center rounded-2xl bg-red-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-red-700"
               >
-                Iniciar sesión
-              </Link>
-              <Link
-                href="/arbitros/lista"
-                className="inline-flex items-center justify-center rounded-2xl border border-white/30 px-6 py-3 text-sm font-semibold text-white/90 hover:bg-white/10"
-              >
-                Ver credenciales
+                Iniciar sesi?n
               </Link>
             </div>
 
