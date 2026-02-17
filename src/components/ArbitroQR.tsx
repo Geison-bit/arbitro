@@ -11,7 +11,7 @@ export default function ArbitroQR({ id }: Props) {
     process.env.NEXT_PUBLIC_SITE_URL ??
     (typeof window !== "undefined" ? window.location.origin : "");
 
-  const value = baseUrl ? `${baseUrl}/v/${id}` : `/v/${id}`;
+  const value = baseUrl ? `${baseUrl}/verificacion/${id}` : `/verificacion/${id}`;
 
   return (
     <div className="flex flex-col items-center">

@@ -29,7 +29,7 @@ export default function ArbitrosLanding() {
           <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-black/40 shadow-2xl">
             <Image
               src="/WhatsApp-Image-2026-02-08-at-16.26.35.jpg"
-              alt="?rbitros en el campo"
+              alt="Árbitros en el campo"
               width={900}
               height={700}
               className="h-full w-full object-cover"

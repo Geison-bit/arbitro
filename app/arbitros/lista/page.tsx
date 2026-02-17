@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import SideMenu from "@/components/SideMenu";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -18,8 +19,10 @@ export default async function ArbitrosPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--panel)] flex items-center justify-center p-6">
-      <section className="w-full max-w-2xl">
+    <main className="min-h-screen bg-[var(--panel)]">
+      <div className="mx-auto flex max-w-6xl gap-6 p-6">
+        <SideMenu />
+        <section className="w-full max-w-2xl">
         <header className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between mb-6">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-[var(--ref-gray)]">
@@ -27,12 +30,7 @@ export default async function ArbitrosPage() {
             </p>
             <h1 className="text-2xl font-bold tracking-wide">Árbitros registrados</h1>
           </div>
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center rounded-xl border border-[var(--line)] px-4 py-2 text-sm font-semibold text-[var(--ink)] hover:bg-white"
-          >
-            Volver al inicio
-          </Link>
+
         </header>
 
         <ul className="space-y-4">
@@ -80,7 +78,8 @@ export default async function ArbitrosPage() {
             </li>
           ))}
         </ul>
-      </section>
+        </section>
+      </div>
     </main>
   );
 }

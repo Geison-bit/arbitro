@@ -1,5 +1,6 @@
 import ArbitroQR from "@/components/ArbitroQR";
 import { supabase } from "@/lib/supabase";
+import SideMenu from "@/components/SideMenu";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -45,9 +46,21 @@ export default async function PerfilArbitro({ params }: Props) {
     return <p className="p-6">Árbitro no encontrado</p>;
   }
 
+  const estado = ((data.estado || "ACTIVO") as string).toUpperCase();
+  const estadoBadge =
+    {
+      ACTIVO: { label: "Activo", className: "bg-green-600" },
+      INACTIVO: { label: "Inactivo", className: "bg-yellow-500" },
+      BLOQUEADO: { label: "Bloqueado", className: "bg-red-600" },
+      RETIRADO: { label: "Retirado", className: "bg-gray-500" },
+      SUSPENDIDO: { label: "Suspendido", className: "bg-orange-500" },
+    }[estado] || { label: estado, className: "bg-gray-600" };
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-red-600/15 via-white to-white flex items-center justify-center p-6">
-      <section className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-[var(--line)] overflow-hidden">
+    <main className="min-h-screen bg-gradient-to-br from-red-600/15 via-white to-white">
+      <div className="mx-auto flex max-w-6xl gap-6 p-6">
+        <SideMenu />
+        <section className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-[var(--line)] overflow-hidden">
         <div className="bg-red-700 text-white px-6 py-4 flex items-center gap-3">
           <div className="h-12 w-12 rounded-xl bg-white/10 flex items-center justify-center">
             <svg
@@ -83,11 +96,9 @@ export default async function PerfilArbitro({ params }: Props) {
           <p className="text-[var(--ref-gray)] mt-1">{data.categoria}</p>
 
           <span
-            className={`mt-4 inline-flex items-center justify-center rounded-full px-4 py-1 text-sm font-semibold text-white ${
-              data.estado ? "bg-red-600" : "bg-red-800"
-            }`}
+            className={`mt-4 inline-flex items-center justify-center rounded-full px-4 py-1 text-sm font-semibold text-white ${estadoBadge.className}`}
           >
-            {data.estado ? "Activo" : "Inactivo"}
+            {estadoBadge.label}
           </span>
 
           <div className="mt-6 grid gap-2 text-sm text-[var(--ink)]">
@@ -106,7 +117,8 @@ export default async function PerfilArbitro({ params }: Props) {
         <div className="border-t border-[var(--line)] px-6 py-6 flex flex-col items-center">
           <ArbitroQR id={id} />
         </div>
-      </section>
+        </section>
+      </div>
     </main>
   );
 }

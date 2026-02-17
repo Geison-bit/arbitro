@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import SideMenu from "@/components/SideMenu";
 
 export default function RegistroArbitro() {
   const [nombre, setNombre] = useState("");
+  const [dni, setDni] = useState("");
   const [categoria, setCategoria] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [fechaIngreso, setFechaIngreso] = useState("");
@@ -32,8 +33,9 @@ export default function RegistroArbitro() {
   const registrar = async () => {
     const nombreLimpio = nombre.trim();
     const categoriaLimpia = categoria.trim();
+    const dniLimpio = dni.trim();
 
-    if (!nombreLimpio || !categoriaLimpia || !fechaNacimiento || !fechaIngreso) {
+    if (!nombreLimpio || !categoriaLimpia || !fechaNacimiento || !fechaIngreso || !dniLimpio) {
       setMensaje("Completa todos los campos obligatorios");
       return;
     }
@@ -66,10 +68,12 @@ export default function RegistroArbitro() {
       .insert([
         {
           nombre: nombreLimpio,
+          dni: dniLimpio,
           categoria: categoriaLimpia,
           fecha_nacimiento: fechaNacimiento,
           fecha_ingreso: fechaIngreso,
           foto_url: fotoUrl,
+          estado: "ACTIVO",
         },
       ])
       .select()
@@ -87,96 +91,69 @@ export default function RegistroArbitro() {
   const disabled =
     loading ||
     !nombre.trim() ||
+    !dni.trim() ||
     !categoria.trim() ||
     !fechaNacimiento ||
     !fechaIngreso;
 
   if (checking) {
     return (
-      <main className="min-h-screen bg-[var(--panel)] flex items-center justify-center p-6">
-        <p className="text-sm text-[var(--ref-gray)]">Cargando...</p>
+      <main className="min-h-screen bg-[var(--panel)]">
+        <div className="mx-auto flex max-w-6xl gap-6 p-6">
+          <SideMenu />
+          <p className="text-sm text-[var(--ref-gray)]">Cargando...</p>
+        </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[var(--panel)] flex items-center justify-center p-6">
-      <section className="w-full max-w-lg bg-white rounded-2xl shadow-lg border border-[var(--line)] p-6">
+    <main className="min-h-screen bg-[var(--panel)]">
+      <div className="mx-auto flex max-w-6xl gap-6 p-6">
+        <SideMenu />
+        <section className="w-full max-w-lg bg-white rounded-2xl shadow-lg border border-[var(--line)] p-6">
         <header className="text-center mb-6">
-          <p className="text-xs uppercase tracking-[0.2em] text-[var(--ref-gray)]">
-            Panel administrativo
-          </p>
-          <h1 className="text-2xl font-bold tracking-wide">
-            Registro oficial de árbitros
-          </h1>
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--ref-gray)]">Panel administrativo</p>
+          <h1 className="text-2xl font-bold tracking-wide">Registro oficial de árbitros</h1>
         </header>
 
         <div className="space-y-4">
           <div>
-            <label className="text-sm font-semibold text-[var(--ref-gray)]">
-              Nombre completo
-            </label>
-            <div className="relative mt-1">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--ref-gray)]">
-                <svg
-                  aria-hidden
-                  className="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M20 21a8 8 0 0 0-16 0" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
-              </span>
-              <input
-                type="text"
-                placeholder="Nombre completo"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-                className="w-full border border-[var(--line)] rounded-xl py-2.5 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-red-600"
-              />
-            </div>
+            <label className="text-sm font-semibold text-[var(--ref-gray)]">Nombre completo</label>
+            <input
+              type="text"
+              placeholder="Nombre completo"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              className="mt-1 w-full border border-[var(--line)] rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-red-600"
+            />
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-[var(--ref-gray)]">
-              Categoría
-            </label>
-            <div className="relative mt-1">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--ref-gray)]">
-                <svg
-                  aria-hidden
-                  className="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M20 10V7a2 2 0 0 0-2-2h-3l-8 8 5 5 8-8z" />
-                  <path d="M7 7h.01" />
-                </svg>
-              </span>
-              <input
-                type="text"
-                placeholder="FIFA, Nacional, Amateur"
-                value={categoria}
-                onChange={(e) => setCategoria(e.target.value)}
-                className="w-full border border-[var(--line)] rounded-xl py-2.5 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-red-600"
-              />
-            </div>
+            <label className="text-sm font-semibold text-[var(--ref-gray)]">DNI</label>
+            <input
+              type="text"
+              placeholder="Documento"
+              value={dni}
+              onChange={(e) => setDni(e.target.value)}
+              className="mt-1 w-full border border-[var(--line)] rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-red-600"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-semibold text-[var(--ref-gray)]">Categoría</label>
+            <input
+              type="text"
+              placeholder="FIFA, Nacional, Amateur"
+              value={categoria}
+              onChange={(e) => setCategoria(e.target.value)}
+              className="mt-1 w-full border border-[var(--line)] rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-red-600"
+            />
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-sm font-semibold text-[var(--ref-gray)]">
-                Fecha de nacimiento
-              </label>
+              <label className="text-sm font-semibold text-[var(--ref-gray)]">Fecha de nacimiento</label>
               <input
                 type="date"
                 value={fechaNacimiento}
@@ -185,9 +162,7 @@ export default function RegistroArbitro() {
               />
             </div>
             <div>
-              <label className="text-sm font-semibold text-[var(--ref-gray)]">
-                Fecha de ingreso
-              </label>
+              <label className="text-sm font-semibold text-[var(--ref-gray)]">Fecha de ingreso</label>
               <input
                 type="date"
                 value={fechaIngreso}
@@ -198,9 +173,7 @@ export default function RegistroArbitro() {
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-[var(--ref-gray)]">
-              Foto de perfil
-            </label>
+            <label className="text-sm font-semibold text-[var(--ref-gray)]">Foto de perfil</label>
             <div className="mt-2 flex items-center gap-3">
               <input
                 id="foto-perfil"
@@ -215,9 +188,7 @@ export default function RegistroArbitro() {
               >
                 Subir foto
               </label>
-              <span className="text-sm text-[var(--ref-gray)]">
-                {fotoFile ? fotoFile.name : "Sin archivo"}
-              </span>
+              <span className="text-sm text-[var(--ref-gray)]">{fotoFile ? fotoFile.name : "Sin archivo"}</span>
             </div>
           </div>
         </div>
@@ -231,26 +202,14 @@ export default function RegistroArbitro() {
         </button>
 
         {mensaje && (
-          <p className="mt-4 text-center text-sm font-semibold text-[var(--ink)]">
-            {mensaje}
-          </p>
+          <p className="mt-4 text-center text-sm font-semibold text-[var(--ink)]">{mensaje}</p>
         )}
 
-        <div className="mt-4 grid gap-2 sm:grid-cols-2">
-          <Link
-            href="/"
-            className="block w-full text-center border border-[var(--line)] rounded-2xl py-2.5 font-semibold text-[var(--ink)] hover:bg-gray-50"
-          >
-            Landing
-          </Link>
-          <Link
-            href="/arbitros/lista"
-            className="block w-full text-center border border-[var(--line)] rounded-2xl py-2.5 font-semibold text-[var(--ink)] hover:bg-gray-50"
-          >
-            Ver árbitros
-          </Link>
-        </div>
-      </section>
+
+
+
+        </section>
+      </div>
     </main>
   );
 }
